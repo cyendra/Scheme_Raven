@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scheme_Raven.Raven.Lexer
+namespace Scheme_Raven.Raven.Lex
 {
     public class Reader
     {

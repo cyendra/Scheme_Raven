@@ -48,16 +48,16 @@
     <Compile Include="Raven\Inner\Node.cs" />
     <Compile Include="Raven\Inner\NonLeafNode.cs" />
     <Compile Include="Raven\Inner\Value.cs" />
-    <Compile Include="Raven\Lexer\Lexer.cs" />
-    <Compile Include="Raven\Lexer\Reader.cs" />
-    <Compile Include="Raven\Lexer\Token.cs" />
+    <Compile Include="Raven\Lex\Lexer.cs" />
+    <Compile Include="Raven\Lex\Reader.cs" />
+    <Compile Include="Raven\Lex\Token.cs" />
+    <Compile Include="Raven\Parse\Parser.cs" />
     <Compile Include="Raven\Symbols\Environment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Raven\Parser\" />
     <Folder Include="Test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

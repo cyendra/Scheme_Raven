@@ -12,9 +12,17 @@ namespace Scheme_Raven.Raven.Inner
         {
 
         }
-        virtual void Error(string s)
+        virtual public void Error(string s)
         {
 
+        }
+        virtual public bool IsLeaf()
+        {
+            return false;
+        }
+        public virtual bool NotLeaf()
+        {
+            return false;
         }
     }
 }

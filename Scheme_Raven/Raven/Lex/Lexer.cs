@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scheme_Raven.Raven.Lexer
+namespace Scheme_Raven.Raven.Lex
 {
 
     public class LexException : System.ApplicationException
@@ -139,10 +139,13 @@ namespace Scheme_Raven.Raven.Lexer
                 else if (peek == '\0') return Token.Eol;
                 else break;
             }
+            Token tok;
             if (IsParentheses(peek))
             {
-                Token tok = new Token(peek);
+                tok = new Token(peek);
                 peek = ' ';
+                if (tok.Text == "【") tok.Type = TokType.LeftParentheses;
+                if (tok.Text == "】") tok.Type = TokType.RightParentheses;
                 return tok;
             }
             StringBuilder builder = new StringBuilder();
@@ -161,7 +164,12 @@ namespace Scheme_Raven.Raven.Lexer
                         Readch();
                     } while (Char.IsDigit(peek));
                 }
-                if (IsEmptyChar(peek) || IsParentheses(peek)) return new Token(builder);
+                if (IsEmptyChar(peek) || IsParentheses(peek))
+                {
+                    tok = new Token(builder);
+                    tok.Type = TokType.Value;
+                    return tok;
+                }
                 else
                 {
                     throw new LexException(lineNumber, builder.ToString());
@@ -176,14 +184,18 @@ namespace Scheme_Raven.Raven.Lexer
                 } while (peek == '』');
                 builder.Append(peek);
                 peek = ' ';
-                return new Token(builder);
+                tok = new Token(builder);
+                tok.Type = TokType.String;
+                return tok;
             }
             do
             {
                 builder.Append(peek);
                 Readch();
             } while (!IsEmptyChar(peek) && !IsParentheses(peek));
-            return new Token(builder.ToString());
+            tok = new Token(builder.ToString());
+            tok.Type = TokType.Identifier;
+            return tok;
         }
         
     }

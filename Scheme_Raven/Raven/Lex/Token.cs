@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scheme_Raven.Raven.Lexer
+namespace Scheme_Raven.Raven.Lex
 {
+    public enum TokType
+    {
+        Value, String, LeftParentheses, RightParentheses, Identifier
+    }
     public class Token
     {
         public Token()
@@ -33,6 +37,12 @@ namespace Scheme_Raven.Raven.Lexer
         {
             get { return lineNumber; }
             set { lineNumber = value; }
+        }
+        private TokType type;
+        public TokType Type
+        {
+            get { return type; }
+            set { type = value; }
         }
         private string text;
         private int lineNumber;

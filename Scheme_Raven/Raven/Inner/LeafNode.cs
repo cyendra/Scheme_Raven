@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Scheme_Raven.Raven.Lexer;
+using Scheme_Raven.Raven.Lex;
 
 namespace Scheme_Raven.Raven.Inner
 {
@@ -13,6 +13,10 @@ namespace Scheme_Raven.Raven.Inner
         public LeafNode(Token token)
         {
             tok = token;
+        }
+        public override bool IsLeaf()
+        {
+            return true;
         }
         protected Token tok;
     }

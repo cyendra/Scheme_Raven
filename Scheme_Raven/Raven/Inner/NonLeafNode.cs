@@ -12,6 +12,10 @@ namespace Scheme_Raven.Raven.Inner
         {
             childs = new List<Node>();
         }
+        public override bool NotLeaf()
+        {
+            return true;
+        }
         public void Append(Node nd)
         {
             childs.Add(nd);
