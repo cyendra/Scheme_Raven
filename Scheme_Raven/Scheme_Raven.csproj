@@ -44,16 +44,21 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raven\Inner\Construct.cs" />
+    <Compile Include="Raven\Inner\LeafNode.cs" />
+    <Compile Include="Raven\Inner\Node.cs" />
+    <Compile Include="Raven\Inner\NonLeafNode.cs" />
     <Compile Include="Raven\Inner\Value.cs" />
     <Compile Include="Raven\Lexer\Lexer.cs" />
     <Compile Include="Raven\Lexer\Reader.cs" />
     <Compile Include="Raven\Lexer\Token.cs" />
+    <Compile Include="Raven\Symbols\Environment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Raven\Parser\" />
+    <Folder Include="Test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
