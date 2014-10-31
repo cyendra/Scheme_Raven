@@ -24,5 +24,9 @@ namespace Scheme_Raven.Raven.Inner
         {
             return false;
         }
+        public virtual void ShowYourSelf()
+        {
+
+        }
     }
 }

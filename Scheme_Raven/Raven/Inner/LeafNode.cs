@@ -18,6 +18,11 @@ namespace Scheme_Raven.Raven.Inner
         {
             return true;
         }
+        public override void ShowYourSelf()
+        {
+            base.ShowYourSelf();
+            System.Console.Write(tok.Text);
+        }
         protected Token tok;
     }
 }

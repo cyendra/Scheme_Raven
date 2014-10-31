@@ -28,6 +28,17 @@ namespace Scheme_Raven.Raven.Inner
         {
             return childs.ElementAt(i);
         }
+        public override void ShowYourSelf()
+        {
+            base.ShowYourSelf();
+            System.Console.Write("【");
+            foreach (Node n in childs)
+            {
+                n.ShowYourSelf();
+                System.Console.Write(" ");
+            }
+            System.Console.Write("】");
+        }
         private List<Node> childs;
     }
 }
