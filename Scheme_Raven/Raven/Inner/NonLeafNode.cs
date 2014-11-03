@@ -40,5 +40,17 @@ namespace Scheme_Raven.Raven.Inner
             System.Console.Write("】");
         }
         private List<Node> childs;
+        public override string Description()
+        {
+            StringBuilder buf = new StringBuilder();
+            buf.Append("【 ");
+            foreach (var n in childs)
+            {
+                buf.Append(n.Description());
+                buf.Append(" ");
+            }
+            buf.Append("】");
+            return buf.ToString();
+        }
     }
 }

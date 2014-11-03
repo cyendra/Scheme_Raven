@@ -28,5 +28,9 @@ namespace Scheme_Raven.Raven.Inner
         {
 
         }
+        public virtual string Description()
+        {
+            return "";
+        }
     }
 }

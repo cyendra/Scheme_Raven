@@ -24,5 +24,9 @@ namespace Scheme_Raven.Raven.Inner
             System.Console.Write(tok.Text);
         }
         protected Token tok;
+        public override string Description()
+        {
+            return tok.Text;
+        }
     }
 }

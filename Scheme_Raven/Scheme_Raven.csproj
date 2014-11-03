@@ -52,7 +52,14 @@
     <Compile Include="Raven\Lex\Reader.cs" />
     <Compile Include="Raven\Lex\Token.cs" />
     <Compile Include="Raven\Parse\Parser.cs" />
+    <Compile Include="Raven\Symbols\Construct.cs" />
     <Compile Include="Raven\Symbols\Environment.cs" />
+    <Compile Include="Raven\Symbols\Function.cs" />
+    <Compile Include="Raven\Symbols\Integer.cs" />
+    <Compile Include="Raven\Symbols\Quote.cs" />
+    <Compile Include="Raven\Symbols\Real.cs" />
+    <Compile Include="Raven\Symbols\String.cs" />
+    <Compile Include="Raven\Symbols\Value.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
