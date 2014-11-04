@@ -41,6 +41,10 @@ namespace Scheme_Raven.Raven.Inner
             System.Console.Write("】");
         }
         private List<Node> childs;
+        public int Size()
+        {
+            return childs.Count;
+        }
         public override string Description()
         {
             StringBuilder buf = new StringBuilder();

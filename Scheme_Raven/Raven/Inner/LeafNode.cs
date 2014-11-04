@@ -29,5 +29,9 @@ namespace Scheme_Raven.Raven.Inner
         {
             return tok.Text;
         }
+        public Token GetToken()
+        {
+            return tok;
+        }
     }
 }

@@ -23,8 +23,9 @@ namespace Scheme_Raven
             {
                 var rt = parser.GetNode();
                 string s = rt.Description();
-                System.Console.WriteLine(s);
-                rt.Eval(env);
+                System.Console.WriteLine("收到了："+s);
+                var rs = rt.Eval(env);
+                System.Console.WriteLine("结果是：" + rs.Description());
             }
         }
     }
