@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Scheme_Raven.Raven.Lex;
 using Scheme_Raven.Raven.Parse;
 using Scheme_Raven.Raven.Inner;
+using Scheme_Raven.Raven.Symbols;
+
+using Env = Scheme_Raven.Raven.Symbols.Environment;
 
 namespace Scheme_Raven
 {
@@ -15,11 +18,13 @@ namespace Scheme_Raven
         static void Main(string[] args)
         {
             Parser parser = new Parser();
+            Env env = new Env();
             for (; ; )
             {
                 var rt = parser.GetNode();
                 string s = rt.Description();
                 System.Console.WriteLine(s);
+                rt.Eval(env);
             }
         }
     }

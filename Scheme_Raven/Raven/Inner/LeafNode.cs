@@ -13,6 +13,7 @@ namespace Scheme_Raven.Raven.Inner
         public LeafNode(Token token)
         {
             tok = token;
+            Type = NodeType.Leaf;
         }
         public override bool IsLeaf()
         {

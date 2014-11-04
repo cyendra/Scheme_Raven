@@ -10,6 +10,7 @@ namespace Scheme_Raven.Raven.Inner
     {
         public NonLeafNode()
         {
+            Type = NodeType.NonLeaf;
             childs = new List<Node>();
         }
         public override bool NotLeaf()
