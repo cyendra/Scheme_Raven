@@ -33,8 +33,10 @@ namespace Scheme_Raven.Raven.Parse
         public Node GetNode()
         {
             Token look = lex.Peek(0);
+            //System.Console.WriteLine(look.Text);
             if (look.Type == TokType.LeftParentheses) 
             {
+                //System.Console.WriteLine("LeftParentheses");
                 Match(TokType.LeftParentheses);
                 Node rs = GetBlock();
                 Match(TokType.RightParentheses);
@@ -42,6 +44,7 @@ namespace Scheme_Raven.Raven.Parse
             }
             else
             {
+                //System.Console.WriteLine("Leaf");
                 Node rs = new LeafNode(look);
                 lex.Read();
                 return rs;
@@ -51,11 +54,12 @@ namespace Scheme_Raven.Raven.Parse
         {
             Token look = lex.Peek(0);
             NonLeafNode tree = new NonLeafNode();
-            while (look.Type != TokType.RightParentheses) 
+            do
             {
                 Node rs = GetNode();
                 tree.Append(rs);
-            }
+                look = lex.Peek(0);
+            } while (look.Type != TokType.RightParentheses);
             return tree;
         }
         private Lexer lex;

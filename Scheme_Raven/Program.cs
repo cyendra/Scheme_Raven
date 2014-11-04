@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Scheme_Raven.Raven.Lex;
+using Scheme_Raven.Raven.Parse;
+using Scheme_Raven.Raven.Inner;
 
 namespace Scheme_Raven
 {
@@ -12,12 +14,12 @@ namespace Scheme_Raven
     {
         static void Main(string[] args)
         {
-            Lexer lex = new Lexer();
+            Parser parser = new Parser();
             for (; ; )
             {
-                Token tok = lex.Read();
-                if (tok == Token.Eof) break;
-                Console.WriteLine(tok.Text);
+                var rt = parser.GetNode();
+                string s = rt.Description();
+                System.Console.WriteLine(s);
             }
         }
     }

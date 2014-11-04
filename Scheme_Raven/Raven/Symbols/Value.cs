@@ -29,5 +29,6 @@ namespace Scheme_Raven.Raven.Symbols
         {
             return "";
         }
+        public static readonly Value NonValue = new Value();
     }
 }

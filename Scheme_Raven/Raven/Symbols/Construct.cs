@@ -14,12 +14,6 @@ namespace Scheme_Raven.Raven.Symbols
         }
         private Value first;
         private Value second;
-
-        public Construct()
-        {
-            first = default(Value);
-            second = default(Value);
-        }
         public Construct(Value x)
         {
             first = x;
