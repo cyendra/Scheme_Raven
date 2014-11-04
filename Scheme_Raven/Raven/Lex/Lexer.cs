@@ -177,12 +177,13 @@ namespace Scheme_Raven.Raven.Lex
             }
             if (peek == '『')
             {
-                do
+                Readch();
+                while (peek != '』')
                 {
                     builder.Append(peek);
                     Readch();
-                } while (peek == '』');
-                builder.Append(peek);
+                };
+           
                 peek = ' ';
                 tok = new Token(builder);
                 tok.Type = TokType.String;

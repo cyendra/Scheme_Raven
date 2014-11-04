@@ -15,16 +15,41 @@ namespace Scheme_Raven.Raven.Inner
         public Visiter() { }
         public Value Eval(LeafNode rt, Env env)
         {
-            System.Console.WriteLine("LeafNode");
-         
+            //System.Console.WriteLine("LeafNode");
+            if (IsSelfEvaluating(rt))
+            {
+                if (rt.GetToken().Type == TokType.String)
+                {
+                    return new Strings(rt.GetToken().Text);
+                }
+                if (rt.GetToken().Type == TokType.Value)
+                {
+                    string snum = rt.GetToken().Text;
+                    if (snum.Contains("."))
+                    {
+                        double v = Double.Parse(snum);
+                        return new Real(v);
+                    }
+                    else
+                    {
+                        int v = 0;
+                        int sz = snum.Length;
+                        for (int i = 0; i < sz; i++)
+                        {
+                            v = v * 10 + snum[i] - '0';
+                        }
+                        return new Integer(v);
+                    }
+                }
+            }
             if (IsVariable(rt))
             {
                 Value val;
                 bool rs = EnvironmentManager.LookupVariableValue(rt.Description(), out val, env);
                 if (rs) return val;
-                
+                return new ErrorValue("未绑定变量(Unbound variable)");
             }
-            return Value.NonValue;
+            return new ErrorValue("位置表达式类型(Unknown expression type)");
         }
         public Value Eval(NonLeafNode rt, Env env)
         {

@@ -12,6 +12,11 @@ namespace Scheme_Raven.Raven.Symbols
         {
             _type = ValueType.Integer;
         }
+        public Integer(int v)
+        {
+            _type = ValueType.Integer;
+            Number = v;
+        }
         public int Number
         {
             get;

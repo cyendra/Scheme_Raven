@@ -12,5 +12,15 @@ namespace Scheme_Raven.Raven.Symbols
         {
             _type = ValueType.Error;
         }
+        public ErrorValue(string s)
+        {
+            _type = ValueType.Error;
+            errorMsg = s;
+        }
+        public override string Description()
+        {
+            return errorMsg;
+        }
+        private string errorMsg;
     }
 }

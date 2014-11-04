@@ -12,6 +12,11 @@ namespace Scheme_Raven.Raven.Symbols
         {
             _type = ValueType.Real;
         }
+        public Real(double v)
+        {
+            _type = ValueType.Real;
+            Number = v;
+        }
         public double Number
         {
             get;
