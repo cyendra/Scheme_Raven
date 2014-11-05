@@ -51,6 +51,7 @@
     <Compile Include="Raven\Lex\Reader.cs" />
     <Compile Include="Raven\Lex\Token.cs" />
     <Compile Include="Raven\Parse\Parser.cs" />
+    <Compile Include="Raven\Symbols\BooleanValue.cs" />
     <Compile Include="Raven\Symbols\Construct.cs" />
     <Compile Include="Raven\Symbols\Environment.cs" />
     <Compile Include="Raven\Symbols\EnvironmentManager.cs" />

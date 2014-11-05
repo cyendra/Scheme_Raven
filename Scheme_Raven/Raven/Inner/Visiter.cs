@@ -16,6 +16,11 @@ namespace Scheme_Raven.Raven.Inner
         public Value Eval(LeafNode rt, Env env)
         {
             //System.Console.WriteLine("LeafNode");
+            if (IsBoolean(rt))
+            {
+                if (IsTrue(rt)) return new BooleanValue(true);
+                else return new BooleanValue(false);
+            }
             if (IsSelfEvaluating(rt))
             {
                 if (rt.GetToken().Type == TokType.String)
@@ -44,6 +49,8 @@ namespace Scheme_Raven.Raven.Inner
             }
             if (IsVariable(rt))
             {
+
+                if (IsReserved(rt)) return new ErrorValue("保留字不能求值");
                 Value val;
                 bool rs = EnvironmentManager.LookupVariableValue(rt.Description(), out val, env);
                 if (rs) return val;
@@ -53,13 +60,38 @@ namespace Scheme_Raven.Raven.Inner
         }
         public Value Eval(NonLeafNode rt, Env env)
         {
+            if (IsIf(rt))
+            {
+                if (rt.Size() < 3) return new ErrorValue("语句不完整");
+                if (rt.Size() > 4) return new ErrorValue("参数过多");
+                Node ifPredicate = GetIfPredicate(rt);
+                Value rs = ifPredicate.Eval(env);
+                bool ok = true;
+                if (rs is BooleanValue)
+                {
+                    if (((BooleanValue)rs).Boolean == false) ok = false;
+                }
+                if (ok)
+                {
+                    Node ifConsequent = GetIfConsequent(rt);
+                    return ifConsequent.Eval(env);
+                }
+                else if (rt.Size() == 4)
+                {
+                    Node ifAlternative = GetIfAlternative(rt);
+                    return ifAlternative.Eval(env);
+                }
+                return Value.NonValue;
+            }
             if (IsDefinition(rt))
             {
                 if (((NonLeafNode)rt).Size() != 3) return new ErrorValue("设置: 语法错误(bad syntax) 标识符后的表达式太多");
                 string varName;
                 bool rs = GetDefinitionVariable(rt, out varName);
                 if (!rs) return new ErrorValue("语法错误(bad syntax)");
+                if (IsReserved(varName)) return new ErrorValue("保留字不能作为名字");
                 Value val = GetDefinitionValue(rt, env);
+                if (val is ErrorValue) return val;
                 env.DefineVariable(varName, val);
                 return Value.NonValue;
             }
@@ -91,6 +123,32 @@ namespace Scheme_Raven.Raven.Inner
         }
 
         #region 是XX吗？
+
+        private bool IsTrue(LeafNode b)
+        {
+            if (b.GetToken().Text == "真") return true;
+            return false;
+        }
+
+        private bool IsBoolean(LeafNode b)
+        {
+            if (b.GetToken().Text == "真" || b.GetToken().Text == "假") return true;
+            return false;
+        }
+
+        private bool IsReserved(LeafNode exp)
+        {
+            string name = exp.GetToken().Text;
+            if (Visiter.ReservedSet.Contains(name)) return true;
+            return false;
+        }
+        private bool IsReserved(string name)
+        {
+            if (Visiter.ReservedSet.Contains(name)) return true;
+            return false;
+        }
+
+        private static HashSet<string> ReservedSet = new HashSet<string> { "设置", "如果", "函数", "条件", "引用", "真", "假" };
 
         private bool GetDefinitionVariable(NonLeafNode exp,out string name)
         {
@@ -220,10 +278,21 @@ namespace Scheme_Raven.Raven.Inner
         }
 
         //条件
+        private Node GetIfPredicate(NonLeafNode exp)
+        {
+            return exp.At(1);
 
+        }
         //满足条件
-
+        private Node GetIfConsequent(NonLeafNode exp)
+        {
+            return exp.At(2);
+        }
         //不满足条件
+        private Node GetIfAlternative(NonLeafNode exp)
+        {
+            return exp.At(3);
+        }
 
         //是序列吗
         private bool IsBegin(Node exp)

@@ -27,6 +27,7 @@ namespace Scheme_Raven.Raven.Inner
         protected Token tok;
         public override string Description()
         {
+            if (tok.Type == TokType.String) return "『" + tok.Text + "』";
             return tok.Text;
         }
         public Token GetToken()

@@ -30,7 +30,10 @@ namespace Scheme_Raven.Raven.Lex
         }
         public string Text
         {
-            get { return text; }
+            get {
+                //if (type == TokType.String) return "『" + text + "』";
+                return text;
+            }
             set { text = value; }
         }
         public int LineNmeber

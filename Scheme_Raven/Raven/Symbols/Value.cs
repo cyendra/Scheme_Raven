@@ -10,7 +10,7 @@ namespace Scheme_Raven.Raven.Symbols
     {
         public enum ValueType
         {
-            Integer, Real, String, Quote, Procedure, Construct, Error, Non
+            Integer, Real, String, Quote, Procedure, Construct, Boolean, Error, Non
         }
         public Value() 
         {
@@ -27,7 +27,7 @@ namespace Scheme_Raven.Raven.Symbols
         }
         public virtual string Description()
         {
-            return "NONE!";
+            return "没什么";
         }
         public static readonly Value NonValue = new Value();
     }
