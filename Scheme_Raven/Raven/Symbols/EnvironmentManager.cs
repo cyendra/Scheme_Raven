@@ -44,6 +44,17 @@ namespace Scheme_Raven.Raven.Symbols
             return findVariable;
         }
 
+        public static Environment SetupEnvironment()
+        {
+            Environment env = new Environment();
+            var map = Primitive.PrimitiveProcedures();
+            int sz = map.Count;
+            foreach (var item in map)
+            {
+                env.DefineVariable(item.Key, item.Value);
+            }
+            return env;
+        }
 
     }
 }

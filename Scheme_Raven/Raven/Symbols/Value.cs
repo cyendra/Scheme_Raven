@@ -10,7 +10,7 @@ namespace Scheme_Raven.Raven.Symbols
     {
         public enum ValueType
         {
-            Integer, Real, String, Quote, Function, Construct, Error, Non
+            Integer, Real, String, Quote, Procedure, Construct, Error, Non
         }
         public Value() 
         {

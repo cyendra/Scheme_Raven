@@ -57,6 +57,9 @@
     <Compile Include="Raven\Symbols\ErrorValue.cs" />
     <Compile Include="Raven\Symbols\Function.cs" />
     <Compile Include="Raven\Symbols\Integer.cs" />
+    <Compile Include="Raven\Symbols\ParametersList.cs" />
+    <Compile Include="Raven\Symbols\Primitive.cs" />
+    <Compile Include="Raven\Symbols\Procedure.cs" />
     <Compile Include="Raven\Symbols\Quote.cs" />
     <Compile Include="Raven\Symbols\Real.cs" />
     <Compile Include="Raven\Symbols\Strings.cs" />

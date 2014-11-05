@@ -49,11 +49,29 @@ namespace Scheme_Raven.Raven.Inner
                 if (rs) return val;
                 return new ErrorValue("未绑定变量(Unbound variable)");
             }
-            return new ErrorValue("位置表达式类型(Unknown expression type)");
+            return new ErrorValue("未知表达式类型(Unknown expression type)");
         }
         public Value Eval(NonLeafNode rt, Env env)
         {
-            System.Console.WriteLine("NonLeafNode");
+            if (IsApplication(rt))
+            {
+                Value procedureName = rt.At(0).Eval(env);
+                if (procedureName is ErrorValue) return procedureName;
+                Procedure proc = procedureName as Procedure;
+                if (proc == null) return new ErrorValue("不是有效的函数名");
+                ParametersList param = new ParametersList();
+                int sz = rt.Size();
+                for (int i = 1; i < sz; i++)
+                {
+                    Value p = rt.At(i).Eval(env);
+                    if (p is ErrorValue) return p;
+                    param.Add(p);
+                }
+                if (proc is Primitive)
+                {
+                    return proc.Run(param);
+                }
+            }
             return Value.NonValue;
         }
         public Value Eval(Node rt, Env env)

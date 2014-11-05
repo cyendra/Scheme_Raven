@@ -18,14 +18,24 @@ namespace Scheme_Raven
         static void Main(string[] args)
         {
             Parser parser = new Parser();
-            Env env = new Env();
+            Env env = EnvironmentManager.SetupEnvironment();
             for (; ; )
             {
                 var rt = parser.GetNode();
                 string s = rt.Description();
-                System.Console.WriteLine("收到了："+s);
+                System.Console.WriteLine("收到："+s);
                 var rs = rt.Eval(env);
-                System.Console.WriteLine("结果是：" + rs.Description());
+                if (rs.Type == Value.ValueType.Error)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("错误：" + rs.Description());
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+                else
+                {
+                    System.Console.WriteLine("结果：" + rs.Description());
+                }
+               
             }
         }
     }

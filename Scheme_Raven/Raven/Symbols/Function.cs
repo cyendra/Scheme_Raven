@@ -8,13 +8,12 @@ using Scheme_Raven.Raven.Inner;
 
 namespace Scheme_Raven.Raven.Symbols
 {
-    public class Function : Value
+    public class Function : Procedure
     {
         public Function()
         {
-            _type = ValueType.Construct;
         }
-        public string Name { get; set; }
+        
         public Queue<string> Parameters
         {
             get;
