@@ -52,19 +52,22 @@ namespace Scheme_Raven.Raven.Symbols
 
             if (RealNumber)
             {
-                double rv = 0;
+                //Console.WriteLine("REAL");
+                double rv = 0.0;
                 Value item = param.At(0);
                 ValueType itemType = item.Type;
                 if (itemType == ValueType.Integer)
                 {
-                    rv = ((Integer)item).Number;
+                    rv = (double)((Integer)item).Number;
                 }
                 else if (itemType == ValueType.Real)
                 {
-                    rv = ((Real)item).Number;
+                    rv = (double)((Real)item).Number;
                 }
                 for (int i = 1; i < sz; i++)
                 {
+                    item = param.At(i);
+                    itemType = item.Type;
                     if (itemType == ValueType.Integer)
                     {
                         if (cal == '+') rv += ((Integer)item).Number;
@@ -79,6 +82,7 @@ namespace Scheme_Raven.Raven.Symbols
                         if (cal == '*') rv *= ((Real)item).Number;
                         if (cal == '/') rv /= ((Real)item).Number;
                     }
+                    //Console.WriteLine(rv);
                 }
                 return new Real(rv);
             }
