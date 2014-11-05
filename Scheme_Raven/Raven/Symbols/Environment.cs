@@ -24,8 +24,9 @@ namespace Scheme_Raven.Raven.Symbols
 
         public bool DefineVariable(string variable, Value value)
         {
-            if (map.ContainsKey(variable)) return false;
-            map.Add(variable, value);
+            //if (map.ContainsKey(variable)) return false;
+            //map.Add(variable, value);
+            map[variable] = value;
             return true;
         }
 

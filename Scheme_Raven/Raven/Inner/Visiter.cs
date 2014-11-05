@@ -53,6 +53,16 @@ namespace Scheme_Raven.Raven.Inner
         }
         public Value Eval(NonLeafNode rt, Env env)
         {
+            if (IsDefinition(rt))
+            {
+                if (((NonLeafNode)rt).Size() != 3) return new ErrorValue("设置: 语法错误(bad syntax) 标识符后的表达式太多");
+                string varName;
+                bool rs = GetDefinitionVariable(rt, out varName);
+                if (!rs) return new ErrorValue("语法错误(bad syntax)");
+                Value val = GetDefinitionValue(rt, env);
+                env.DefineVariable(varName, val);
+                return Value.NonValue;
+            }
             if (IsApplication(rt))
             {
                 Value procedureName = rt.At(0).Eval(env);
@@ -72,15 +82,58 @@ namespace Scheme_Raven.Raven.Inner
                     return proc.Run(param);
                 }
             }
-            return Value.NonValue;
+            return new ErrorValue("未知表达式类型(Unknown expression type)");
         }
         public Value Eval(Node rt, Env env)
         {
             System.Console.WriteLine("Node");
-            return Value.NonValue;
+            return new ErrorValue("未知表达式类型(Unknown expression type)");
         }
 
         #region 是XX吗？
+
+        private bool GetDefinitionVariable(NonLeafNode exp,out string name)
+        {
+            if (IsDefineFunction(exp))
+            {
+                var funcName = ((NonLeafNode)(exp.At(1))).At(0);
+                if (funcName.NotLeaf())
+                {
+                    name = "";
+                    return false;
+                }
+                else
+                {
+                    var tok = ((LeafNode)funcName).GetToken();
+                    name = tok.Text;
+                    if (tok.Type != TokType.Identifier) return false;
+                }
+            }
+            else
+            {
+                var tok = ((LeafNode)exp.At(1)).GetToken();
+                name = tok.Text;
+                if (tok.Type != TokType.Identifier) return false;
+            }
+            return true;
+        }
+        private Value GetDefinitionValue(NonLeafNode exp, Env env)
+        {
+            if (IsDefineFunction(exp))
+            {
+                return new ErrorValue("还没写！");
+            }
+            else
+            {
+                return exp.At(2).Eval(env);
+            }
+        }
+
+        // 是define的函数吗
+        private bool IsDefineFunction(NonLeafNode exp)
+        {
+            return exp.At(1).NotLeaf();
+        }
 
         //是自求值表达式 数和字符串 吗
         private bool IsSelfEvaluating(Node exp)
@@ -181,7 +234,7 @@ namespace Scheme_Raven.Raven.Inner
         //是过程吗
         private bool IsApplication(Node exp)
         {
-            return exp.NotLeaf();
+            return exp.NotLeaf() && ((NonLeafNode)exp).Size() > 0;
         }
 
 

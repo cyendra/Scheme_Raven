@@ -38,6 +38,11 @@ namespace Scheme_Raven.Raven.Parse
             {
                 //System.Console.WriteLine("LeftParentheses");
                 Match(TokType.LeftParentheses);
+                if (lex.Peek(0).Type == TokType.RightParentheses)
+                {
+                    Match(TokType.RightParentheses);
+                    return new NonLeafNode();
+                }
                 Node rs = GetBlock();
                 Match(TokType.RightParentheses);
                 return rs;
