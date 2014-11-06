@@ -23,7 +23,7 @@ namespace Scheme_Raven
             {
                 var rt = parser.GetNode();
                 string s = rt.Description();
-                System.Console.WriteLine("收到："+s);
+                //System.Console.WriteLine("收到："+s);
                 var rs = rt.Eval(env);
                 if (rs.Type == Value.ValueType.Error)
                 {
@@ -35,8 +35,34 @@ namespace Scheme_Raven
                 {
                     System.Console.WriteLine("结果：" + rs.Description());
                 }
-               
+                System.Console.WriteLine();
             }
         }
     }
 }
+/*
+ 【设置 不科学
+   【函数 【参数】
+       【如果 【大于 参数 0】
+           【加 参数 【不科学 【减 参数 1】】】
+           参数】】】
+ 
+ 【设置 阶乘
+   【函数 【参数】
+       【如果 【等于 参数 0】
+           1
+           【乘 参数 【阶乘 【减 参数 1】】】】】】
+ 
+【设置 斐波那契
+    【函数 【参数】
+        【如果 【小于等于 参数 1】
+             1
+            【加 【斐波那契 【减 参数 1】】
+                【斐波那契 【减 参数 2】】】】】】
+【执行
+    【设置 变量 100】
+    【设置 倍增
+        【函数 【参数】
+            【乘 参数 2】】】
+    【倍增 变量】】  
+*/

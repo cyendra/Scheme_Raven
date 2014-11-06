@@ -13,17 +13,19 @@ namespace Scheme_Raven.Raven.Symbols
         public Function()
         {
             paramlist = new List<string>();
+            bodylist = new List<Node>();
         }
         private List<string> paramlist;
+        private List<Node> bodylist;
         public List<string> Parameters
         {
             get { return paramlist; }
         }
-        public Node Body
+        public List<Node> Body
         {
-            get;
-            set;
+            get { return bodylist; }
         }
+      
         public Environment Env { get; set; }
         public override string Description()
         {
@@ -36,7 +38,10 @@ namespace Scheme_Raven.Raven.Symbols
                 buf.Append(" ");
             }
             buf.Append("】\n执行：");
-            buf.Append(Body.Description());
+            foreach (var item in Body)
+            {
+                buf.Append(item.Description()+"\n");
+            }
             return buf.ToString();
         }
         public override Value Run(ParametersList param)
@@ -47,8 +52,16 @@ namespace Scheme_Raven.Raven.Symbols
             for (int i = 0; i < sz; i++)
             {
                 subEnv.DefineVariable(Parameters.ElementAt(i), param.At(i));
+                //Console.Write(Parameters.ElementAt(i) + " " + param.At(i).Description());
             }
-            return Body.Eval(subEnv);
+            //Console.WriteLine();
+            Value rs = Value.NonValue;
+            foreach (var item in Body)
+            {
+                rs = item.Eval(subEnv);
+                if (rs is ErrorValue) return rs;
+            }
+            return rs;
         }
     }
 }

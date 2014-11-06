@@ -16,6 +16,7 @@ namespace Scheme_Raven.Raven.Inner
         public Value Eval(LeafNode rt, Env env)
         {
             //System.Console.WriteLine("LeafNode");
+     
             if (IsBoolean(rt))
             {
                 if (IsTrue(rt)) return new BooleanValue(true);
@@ -60,6 +61,18 @@ namespace Scheme_Raven.Raven.Inner
         }
         public Value Eval(NonLeafNode rt, Env env)
         {
+            if (IsBegin(rt))
+            {
+                //List<Node> evalList = new List<Node>();
+                int sz = rt.Size();
+                Value rs = Value.NonValue;
+                for (int i = 1; i < sz; i++)
+                {
+                    rs = rt.At(i).Eval(env);
+                    if (rs is ErrorValue) return rs;
+                }
+                return rs;
+            }
             if (IsLambda(rt))
             {
                 int sz = rt.Size();
@@ -76,7 +89,11 @@ namespace Scheme_Raven.Raven.Inner
                     string name = idNode.GetToken().Text;
                     func.Parameters.Add(name);
                 }
-                func.Body = GetBody(rt);
+                for (int i = 2; i < sz; i++)
+                {
+                    func.Body.Add(GetBody(rt, i - 2));
+                }
+                    
                 func.Env = env;
                 return func;
             }
@@ -141,9 +158,9 @@ namespace Scheme_Raven.Raven.Inner
 
         #region 是XX吗？
 
-        private Node GetBody(NonLeafNode exp)
+        private Node GetBody(NonLeafNode exp, int i)
         {
-            return exp.At(2);
+            return exp.At(i + 2);
         }
 
         private bool IsTrue(LeafNode b)
@@ -170,7 +187,7 @@ namespace Scheme_Raven.Raven.Inner
             return false;
         }
 
-        private static HashSet<string> ReservedSet = new HashSet<string> { "设置", "如果", "函数", "条件", "引用", "真", "假" };
+        private static HashSet<string> ReservedSet = new HashSet<string> { "执行", "设置", "如果", "函数", "条件", "引用", "真", "假" };
 
         private bool GetDefinitionVariable(NonLeafNode exp,out string name)
         {
