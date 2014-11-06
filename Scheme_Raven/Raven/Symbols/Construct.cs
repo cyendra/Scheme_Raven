@@ -17,7 +17,7 @@ namespace Scheme_Raven.Raven.Symbols
         public Construct(Value x)
         {
             first = x;
-            second = default(Value);
+            second = Value.NonValue;
         }
         public Construct(Value x, Value y)
         {

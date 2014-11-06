@@ -14,6 +14,10 @@ namespace Scheme_Raven.Raven.Symbols
         {
             _type = ValueType.Quote;
         }
+        public Quote(Node rt)
+        {
+            Root = rt;
+        }
         public Node Root
         {
             get;
@@ -23,5 +27,6 @@ namespace Scheme_Raven.Raven.Symbols
         {
             return "「" + Root.Description();
         }
+        public static Quote Nil = new Quote(new NonLeafNode());
     }
 }
