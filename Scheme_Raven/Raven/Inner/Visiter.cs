@@ -219,7 +219,27 @@ namespace Scheme_Raven.Raven.Inner
         {
             if (IsDefineFunction(exp))
             {
-                return new ErrorValue("还没写！");
+                int sz = exp.Size();
+                Function func = new Function();
+                NonLeafNode paramsNode = exp.At(1) as NonLeafNode;
+                if (paramsNode == null) return new ErrorValue("参数定义语法不正确");
+                int paramsNumber = paramsNode.Size();
+                for (int i = 1; i < paramsNumber; i++)
+                {
+                    LeafNode idNode = paramsNode.At(i) as LeafNode;
+                    if (idNode == null) return new ErrorValue("不是有效的标识符结构");
+                    if (idNode.GetToken().Type != TokType.Identifier) return new ErrorValue("不是有效的标识符");
+                    string name = idNode.GetToken().Text;
+                    func.Parameters.Add(name);
+                }
+                for (int i = 2; i < sz; i++)
+                {
+                    func.Body.Add(GetBody(exp, i - 2));
+                }
+
+                func.Env = env;
+                return func;
+                //return new ErrorValue("还没写！");
             }
             else
             {
