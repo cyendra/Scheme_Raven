@@ -12,12 +12,12 @@ namespace Scheme_Raven.Raven.Symbols
     {
         public Function()
         {
+            paramlist = new List<string>();
         }
-        
-        public Queue<string> Parameters
+        private List<string> paramlist;
+        public List<string> Parameters
         {
-            get;
-            set;
+            get { return paramlist; }
         }
         public Node Body
         {
@@ -38,6 +38,17 @@ namespace Scheme_Raven.Raven.Symbols
             buf.Append("】\n执行：");
             buf.Append(Body.Description());
             return buf.ToString();
+        }
+        public override Value Run(ParametersList param)
+        {
+            if (param.Size() != Parameters.Count) return new ErrorValue("参数数量不正确啊");
+            Environment subEnv = EnvironmentManager.GetSubEnviroment(Env);
+            int sz = param.Size();
+            for (int i = 0; i < sz; i++)
+            {
+                subEnv.DefineVariable(Parameters.ElementAt(i), param.At(i));
+            }
+            return Body.Eval(subEnv);
         }
     }
 }

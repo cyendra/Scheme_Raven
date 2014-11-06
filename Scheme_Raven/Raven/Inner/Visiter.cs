@@ -60,6 +60,26 @@ namespace Scheme_Raven.Raven.Inner
         }
         public Value Eval(NonLeafNode rt, Env env)
         {
+            if (IsLambda(rt))
+            {
+                int sz = rt.Size();
+                if (sz < 3) return new ErrorValue("函数不完整");
+                Function func = new Function();
+                NonLeafNode paramsNode = rt.At(1) as NonLeafNode;
+                if (paramsNode == null) return new ErrorValue("参数定义语法不正确");
+                int paramsNumber = paramsNode.Size();
+                for (int i = 0; i < paramsNumber; i++)
+                {
+                    LeafNode idNode = paramsNode.At(i) as LeafNode;
+                    if (idNode == null) return new ErrorValue("不是有效的标识符结构");
+                    if (idNode.GetToken().Type != TokType.Identifier) return new ErrorValue("不是有效的标识符");
+                    string name = idNode.GetToken().Text;
+                    func.Parameters.Add(name);
+                }
+                func.Body = GetBody(rt);
+                func.Env = env;
+                return func;
+            }
             if (IsIf(rt))
             {
                 if (rt.Size() < 3) return new ErrorValue("语句不完整");
@@ -109,10 +129,7 @@ namespace Scheme_Raven.Raven.Inner
                     if (p is ErrorValue) return p;
                     param.Add(p);
                 }
-                if (proc is Primitive)
-                {
-                    return proc.Run(param);
-                }
+                return proc.Run(param);
             }
             return new ErrorValue("未知表达式类型(Unknown expression type)");
         }
@@ -123,6 +140,11 @@ namespace Scheme_Raven.Raven.Inner
         }
 
         #region 是XX吗？
+
+        private Node GetBody(NonLeafNode exp)
+        {
+            return exp.At(2);
+        }
 
         private bool IsTrue(LeafNode b)
         {

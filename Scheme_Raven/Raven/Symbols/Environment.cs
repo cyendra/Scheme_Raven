@@ -13,6 +13,11 @@ namespace Scheme_Raven.Raven.Symbols
             prev = null;
             map = new Dictionary<string, Value>();
         }
+        public Environment(Environment env)
+        {
+            prev = env;
+            map = new Dictionary<string, Value>();
+        }
 
         private Dictionary<string, Value> map;
         private Environment prev;
@@ -42,5 +47,6 @@ namespace Scheme_Raven.Raven.Symbols
             return prev;
         }
 
+      
     }
 }

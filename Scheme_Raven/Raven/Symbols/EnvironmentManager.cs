@@ -56,5 +56,11 @@ namespace Scheme_Raven.Raven.Symbols
             return env;
         }
 
+        public static Environment GetSubEnviroment(Environment env)
+        {
+            Environment sub = new Environment(env);
+            return sub;
+        }
+
     }
 }
